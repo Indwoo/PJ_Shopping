@@ -1,8 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import data from './data'
 
 function App() {
+
+  let [shoes] = useState(data);
+
   return (
     <div className="App">
       <Navbar expand="lg" className="bg-dark-subtle">
@@ -33,25 +38,29 @@ function App() {
 
       <div className='container'>
         <div className='row'>
-          <div className='col-md-4'>
-            <img src='https://codingapple1.github.io/shop/shoes1.jpg' width="80%"></img>
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </div>
-          <div className='col-md-4'>
-            <img src='https://codingapple1.github.io/shop/shoes2.jpg' width="80%"></img>
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </div>
-          <div className='col-md-4'>
-            <img src='https://codingapple1.github.io/shop/shoes3.jpg' width="80%"></img>
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </div>
+          {shoes.map(function (shoes, i) {
+            return (
+              <Products product={shoes} key={i} index={i} />
+            )
+          })}
+
         </div>
       </div>
     </div>
   );
+}
+
+function Products(props) {
+  return (
+    <>
+      <div className='col-md-4'>
+        <img src={`https://codingapple1.github.io/shop/shoes${props.index+1}.jpg`} width="80%" alt={props.product.title}></img>
+        <h4>{props.product.title}</h4>
+        <p>{props.product.content}</p>
+        <h4>{props.product.price}</h4>
+      </div>
+    </>
+  )
 }
 
 export default App;
