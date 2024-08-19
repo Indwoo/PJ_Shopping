@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,8 +9,25 @@ function Detail(props) {
     return x.id == id
   });
 
+  let [alert_Hidden, setAlertHidden] = useState(false);
+  let [user_input, isInt] = useState('');
+
+  useEffect(() => {
+    let a = setTimeout(() => { setAlertHidden(true) }, 2000)
+    if (isNaN(user_input) && user_input !== '') {
+      alert('숫자만 입력하세요.');
+    }
+    return () => {
+      clearTimeout(a)
+    }
+  }, [user_input])
+
   return (
     <div className="container">
+      {alert_Hidden ? null : (<div className="alert alert-warning">
+        2초 이내 구매시 할인
+      </div>)}
+      <input className="onlyInt" onChange={(e) => isInt(e.target.value)} value={user_input} />
       <div className="row">
         <div className="col-md-6">
           <img src={`https://codingapple1.github.io/shop/shoes${찾은상품.id + 1}.jpg`} width="100%" />
