@@ -5,23 +5,23 @@ import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import data from './data'
 import Detail from './routes/Detail';
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom';
+import axios from 'axios'
 
 function App() {
 
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
   return (
     <div className="App">
-
       <Navbar expand="lg" className="bg-dark-subtle">
         <Container>
           <Navbar.Brand href="/">Indwoo</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link  onClick={()=>{navigate('/')}}>Home</Nav.Link>
-              <Nav.Link onClick={()=>{navigate('/detail')}}>Detail</Nav.Link>
+              <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
+              <Nav.Link onClick={() => { navigate('/detail') }}>Detail</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
@@ -49,32 +49,37 @@ function App() {
                     <Products product={shoes} key={i} index={i} />
                   )
                 })}
-
               </div>
             </div>
+            <button onClick={()=>{
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((result)=>{
+                let newShoes = [...shoes, ...result.data];
+                setShoes(newShoes);
+              })
+              .catch(()=>{
+                console.log('실패했습니다.')
+              })
+            }}>더보기</button>
           </>
         } />
-        <Route path='/detail/:id' element={<Detail shoes = {shoes} />} />
 
-        <Route path='/about' element={<About/>}>
+        <Route path='/detail/:id' element={<Detail shoes={shoes} />} />
+
+        <Route path='/about' element={<About />}>
           <Route path='member' element={<div>멤버 정보</div>}></Route>
           <Route path='location' element={<div>위치 정보</div>}></Route>
         </Route>
 
-        <Route path='/event' element={<Event/>}>
-          <Route path='one' element={<div>첫 주문시 양배추즙 서비스</div>}></Route>
-          <Route path='two' element={<div>생일기념 쿠폰받기</div>}></Route>
-        </Route>
-
-        <Route path="*" element = {<div> 없는 페이지입니다. </div>}></Route>
+        <Route path="*" element={<div> 없는 페이지입니다. </div>}></Route>
       </Routes>
 
     </div>
   );
 }
 
-function About(){
-  return(
+function About() {
+  return (
     <div>
       <h4>회사 정보</h4>
       <Outlet></Outlet>
@@ -82,8 +87,8 @@ function About(){
   )
 }
 
-function Event(){
-  return(
+function Event() {
+  return (
     <div>
       <h4>오늘의 이벤트</h4>
       <Outlet></Outlet>
