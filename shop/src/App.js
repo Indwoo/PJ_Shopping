@@ -6,6 +6,7 @@ import data from './data'
 import Detail from './routes/Detail';
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios'
+import Cart from './routes/Cart';
 
 function App() {
 
@@ -66,10 +67,7 @@ function App() {
 
         <Route path='/detail/:id' element={<Detail shoes={shoes} />} />
 
-        <Route path='/about' element={<About />}>
-          <Route path='member' element={<div>멤버 정보</div>}></Route>
-          <Route path='location' element={<div>위치 정보</div>}></Route>
-        </Route>
+        <Route path='/cart' element={<Cart />} />
 
         <Route path="*" element={<div> 없는 페이지입니다. </div>}></Route>
       </Routes>
