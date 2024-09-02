@@ -1,6 +1,11 @@
-import {Table} from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
+import { useSelector } from "react-redux"
 
 function Cart() {
+
+    let a = useSelector((state) => { return state.bascket })
+    console.log(a)
+
     return (
         <div>
             <Table>
@@ -13,12 +18,14 @@ function Cart() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>안녕</td>
-                        <td>안녕</td>
-                        <td>안녕</td>
-                    </tr>
+                    {a.map((item, i) => (
+                        <tr key={i}>
+                            <td>{i + 1}</td>
+                            <td>{item.name}</td>
+                            <td>{item.count}</td>
+                            <td>안녕</td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
         </div>

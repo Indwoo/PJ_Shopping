@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import data from './data'
 import Detail from './routes/Detail';
-import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Cart from './routes/Cart';
 
@@ -74,24 +74,6 @@ function App() {
 
     </div>
   );
-}
-
-function About() {
-  return (
-    <div>
-      <h4>회사 정보</h4>
-      <Outlet></Outlet>
-    </div>
-  )
-}
-
-function Event() {
-  return (
-    <div>
-      <h4>오늘의 이벤트</h4>
-      <Outlet></Outlet>
-    </div>
-  )
 }
 
 function Products(props) {
