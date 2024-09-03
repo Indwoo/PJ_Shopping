@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Nav } from "react-bootstrap"
+import { useDispatch } from "react-redux"
+import {additem} from './../store.js'
+
 
 function Detail(props) {
+
+  let dispatch = useDispatch()
 
   let { id } = useParams();
   let 찾은상품 = props.shoes.find(function (x) {
@@ -15,7 +20,7 @@ function Detail(props) {
 
   useEffect(() => {
     set_dt_Fade('end')
-    return() =>{
+    return () => {
       set_dt_Fade('')
     }
   }, [])
@@ -30,7 +35,9 @@ function Detail(props) {
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button className="btn btn-danger" onClick={() => {
+            dispatch(additem({ id: 1, name: 'Red Knit', count: 1 }))
+          }}>주문하기</button>
         </div>
       </div>
 
@@ -55,9 +62,9 @@ function TabContent(props) {
 
   let [fade, setFade] = useState('')
 
-  useEffect(()=>{
-    setTimeout(()=> {setFade('end')}, 100)
-    return()=>{
+  useEffect(() => {
+    setTimeout(() => { setFade('end') }, 100)
+    return () => {
       setFade('')
     }
   }, [props.tab])
