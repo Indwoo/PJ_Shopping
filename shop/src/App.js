@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import data from './data'
 import Detail from './routes/Detail';
@@ -12,6 +12,12 @@ function App() {
 
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem('watched')) {
+      localStorage.setItem('watched', JSON.stringify([]));
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -52,15 +58,15 @@ function App() {
                 })}
               </div>
             </div>
-            <button onClick={()=>{
+            <button onClick={() => {
               axios.get('https://codingapple1.github.io/shop/data2.json')
-              .then((result)=>{
-                let newShoes = [...shoes, ...result.data];
-                setShoes(newShoes);
-              })
-              .catch(()=>{
-                console.log('실패했습니다.')
-              })
+                .then((result) => {
+                  let newShoes = [...shoes, ...result.data];
+                  setShoes(newShoes);
+                })
+                .catch(() => {
+                  console.log('실패했습니다.')
+                })
             }}>더보기</button>
           </>
         } />

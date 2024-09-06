@@ -19,11 +19,17 @@ function Detail(props) {
   let [dt_fade, set_dt_Fade] = useState('')
 
   useEffect(() => {
+    let watched = new Set(JSON.parse(localStorage.getItem('watched')));
+
+    watched.add(찾은상품.id);
+
+    localStorage.setItem('watched', JSON.stringify(Array.from(watched)));
+
     set_dt_Fade('end')
     return () => {
       set_dt_Fade('')
     }
-  }, [])
+  }, [찾은상품.id])
 
   return (
     <div className={`container start ${dt_fade}`}>
