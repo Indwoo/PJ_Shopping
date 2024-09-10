@@ -7,11 +7,20 @@ import Detail from './routes/Detail';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Cart from './routes/Cart';
+import { useQuery } from 'react-query';
 
 function App() {
 
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  
+  let result = useQuery('작명', ()=>{
+    return axios.get('https://codingapple1.github.io/userdata.json').then((a)=>{
+    console.log('요청됨')  
+    return a.data
+    }),
+    {staleTime : 2000}
+  })
 
   useEffect(() => {
     if (!localStorage.getItem('watched')) {
@@ -40,6 +49,11 @@ function App() {
                   Separated link
                 </NavDropdown.Item>
               </NavDropdown>
+            </Nav>
+            <Nav className='ms-auto'>
+              {result.isLoading && '로딩중'}
+              {result.error && '에러 발생'}
+              {result.data && result.data.name}
             </Nav>
           </Navbar.Collapse>
         </Container>
